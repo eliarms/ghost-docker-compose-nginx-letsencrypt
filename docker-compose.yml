@@ -43,7 +43,9 @@ services:
       - "443:443"
     environment:
       SERVER_NAME: ${SERVER_NAME}  
+      SSL_CERT: ${SSL_CERT}
+      SSL_CERT_KEY: ${SSL_CERT_KEY}
     volumes:
-       - ./nginx/certbot:/etc/letsencrypt
+       - ${CERT_PATH}:${CERT_PATH}
        - ./www:/usr/share/nginx/html
        - ./nginx/conf.d:/etc/nginx/conf.d
