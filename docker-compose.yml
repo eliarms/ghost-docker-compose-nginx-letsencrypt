@@ -45,7 +45,8 @@ services:
       SERVER_NAME: ${SERVER_NAME}  
       SSL_CERT: ${SSL_CERT}
       SSL_CERT_KEY: ${SSL_CERT_KEY}
+      CERT_PATH: ${CERT_PATH}
     volumes:
-       - ${CERT_PATH}:${CERT_PATH}
+       - ${CERT_PATH}:/etc/letsencrypt
        - ./www:/usr/share/nginx/html
        - ./nginx/conf.d:/etc/nginx/conf.d
