@@ -2,8 +2,9 @@
 
 MYSQL_DATA="/opt/apps/ghost_mysql"
 GHOST_DATA="/opt/apps/ghost_content"
-domains=(eliarms.com www.example.com)
+domains=(eliarms.com www.eliarms.com)
 data_path="./nginx/certbot"
+NGINX_CONTAINER_NAME=ELIARMS-NGINX
 rsa_key_size=4096
 email="" # Adding a valid address is strongly recommended
 staging=0 # Set to 1 if you're testing your setup to avoid hitting request limits
@@ -50,7 +51,7 @@ echo
 
 
 echo "### Starting nginx ..."
-docker-compose up --force-recreate -d nginx
+docker-compose up --force-recreate -d $NGINX_CONTAINER_NAME
 echo
 
 echo "### Deleting dummy certificate for $domains ..."
@@ -88,4 +89,4 @@ docker-compose run --rm --entrypoint "\
 echo
 
 echo "### Reloading nginx ..."
-docker-compose exec nginx nginx -s reload
+docker-compose exec $NGINX_CONTAINER_NAME $NGINX_CONTAINER_NAME -s reload

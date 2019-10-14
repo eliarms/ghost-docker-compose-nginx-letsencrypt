@@ -49,6 +49,7 @@ services:
        - ./www:/var/www/certbot
   certbot:
     image: certbot/certbot
+    container_name: ${CERTBOT_CONTAINER_NAME}
     restart: unless-stopped
     volumes:
       - ./nginx/certbot/conf:/etc/letsencrypt
