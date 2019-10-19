@@ -32,7 +32,7 @@ COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/l
 sudo curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
 sudo chmod a+x /usr/local/bin/docker-compose
-
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 # Output current version
 docker -v
 docker-compose -v

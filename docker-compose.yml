@@ -1,6 +1,5 @@
-version: '3'
+version: "3"
 services:
-
   ghost:
     image: ghost:${GHOST_VERSION}
     restart: always
@@ -18,7 +17,6 @@ services:
       mail__options__service: ${SMTP_SERVICE}
       mail__options__auth__user: ${SMTP_USER}
       mail__options__auth__pass: ${SMTP_PASSWORD}
-
 
     volumes:
       - ${GHOST_DATA}:/var/lib/ghost/content
@@ -41,12 +39,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    environment:
-      SERVER_NAME: ${SERVER_NAME}  
-      SSL_CERT: ${SSL_CERT}
-      SSL_CERT_KEY: ${SSL_CERT_KEY}
-      CERT_PATH: ${CERT_PATH}
     volumes:
-       - ${CERT_PATH}:/etc/letsencrypt
-       - ./www:/usr/share/nginx/html
-       - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/cert:/etc/letsencrypt
+      - ./www:/usr/share/nginx/html
+      - ./nginx/conf.d:/etc/nginx/conf.d
