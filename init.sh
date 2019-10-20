@@ -8,7 +8,7 @@ if ! [ -x "$(command -v docker-compose)" ] || ! [ "$(command -v docker)" ] ; the
   echo 'Error: Docker or docker-compose is not yet installed'
  if grep -iq "amzn" /etc/os-release ; then
      echo "Installing Docker and docker-compose on AWS EC2"
-     sudo chmod +x docker-centos-install.sh && ./docker-aws-linux-install.sh
+     sudo chmod +x docker-aws-linux-install.sh && ./docker-aws-linux-install.sh
  elif grep -iq "centos" /etc/os-release ; then
      echo "Installing Docker and docker-compose on RHEL or Centos"
      sudo chmod +x docker-centos-install.sh && ./docker-centos-install.sh
