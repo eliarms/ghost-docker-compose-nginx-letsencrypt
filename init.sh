@@ -22,7 +22,7 @@ fi
 [ ! -d "$MYSQL_DATA" ] && mkdir -p "$MYSQL_DATA"
 [ ! -d "$GHOST_DATA" ] && mkdir -p "$GHOST_DATA"
 
-
+### Check for Nginx Certificates ##
 if ls ${CERT}/*.crt &>/dev/null && ls ${CERT}/*.key &>/dev/null
 then
     echo "Creating Containers"
