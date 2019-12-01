@@ -1,23 +1,27 @@
 #!/bin/bash
 
-MYSQL_DATA="/opt/apps/ghost_mysql"
-GHOST_DATA="/opt/apps/ghost_content"
-domains=(eliarms.com www.eliarms.com)
+MYSQL_DATA="/path/to/ghost_mysql"
+GHOST_DATA="/path/to/ghost_content"
+domains=(replaceme.com www.replaceme.com)
 data_path="./nginx/certbot"
-NGINX_CONTAINER_NAME=ELIARMS-NGINX
+NGINX_CONTAINER_NAME=REPLACEME-NGINX
 rsa_key_size=4096
 email="" # Adding a valid address is strongly recommended
 staging=0 # Set to 1 if you're testing your setup to avoid hitting request limits
 #Check if docker and docker compose are installed , if not install it 
-if  [ -x "$(command -v docker-compose)" ] || [ "$(command -v docker)" ] ; then
-  echo 'Error: Docker or docker-compose is not installed' 
 
-  if python -mplatform | grep -qi Ubuntu ; then
-   
-   chmod +x docker-ubuntu-install.sh && ./docker-ubuntu-install.sh
-   else
-   chmod +x docker-centos-install.sh && ./docker-centos-install.sh
-  fi
+if ! [ -x "$(command -v docker-compose)" ] || ! [ "$(command -v docker)" ] ; then
+  echo 'Error: Docker or docker-compose is not yet installed'
+ if grep -iq "amzn" /etc/os-release ; then
+     echo "Installing Docker and docker-compose on AWS EC2"
+     sudo chmod +x docker-aws-linux-install.sh && ./docker-aws-linux-install.sh
+ elif grep -iq "centos" /etc/os-release ; then
+     echo "Installing Docker and docker-compose on RHEL or Centos"
+     sudo chmod +x docker-centos-install.sh && ./docker-centos-install.sh
+ else
+     echo "Installing Docker and docker-compose on Ubuntu"
+     sudo chmod +x docker-ubuntu-install.sh && ./docker-ubuntu-install.sh
+ fi
 fi
 ### Check for mysql and ghost home dir, if not found create it using the mkdir ##
 [ ! -d "$MYSQL_DATA" ] && mkdir -p "$MYSQL_DATA"
