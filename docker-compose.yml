@@ -31,7 +31,17 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ${MYSQL_DATA}:/var/lib/mysql
-
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    container_name: ${PMA_CONTAINER_NAME}
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "8080:80"
   nginx:
     image: nginx:${NGINX_VERSION}
     restart: always

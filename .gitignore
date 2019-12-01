@@ -1,1 +1,6 @@
-/nginx/certbot
+.gitignore
+.env
+**/nginx/certbot
+# ignore all certificates
+*.crt 
+*.key 
