@@ -1,7 +1,7 @@
 #!/bin/bash
 
-MYSQL_DATA="/opt/apps/ghost_mysql"
-GHOST_DATA="/opt/apps/ghost_content"
+MYSQL_DATA="/path/to/ghost_mysql"
+GHOST_DATA="/path/to/ghost_content"
 export CERT=/path/to/certificates/folder
 
 if ! [ -x "$(command -v docker-compose)" ] || ! [ "$(command -v docker)" ] ; then
