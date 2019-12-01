@@ -2,7 +2,7 @@
 
 MYSQL_DATA="/opt/apps/ghost_mysql"
 GHOST_DATA="/opt/apps/ghost_content"
-export CERT=/nginx/cert
+export CERT=/path/to/certificates/folder
 
 if ! [ -x "$(command -v docker-compose)" ] || ! [ "$(command -v docker)" ] ; then
   echo 'Error: Docker or docker-compose is not yet installed'

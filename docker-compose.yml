@@ -50,6 +50,6 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx/cert:/etc/letsencrypt
+      - /path/to/certificates/folder:/etc/nginx/certs
       - ./www:/usr/share/nginx/html
       - ./nginx/conf.d:/etc/nginx/conf.d
