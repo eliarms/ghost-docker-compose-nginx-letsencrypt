@@ -1,8 +1,8 @@
 #!/bin/bash
-
-MYSQL_DATA="/path/to/ghost_mysql"
-GHOST_DATA="/path/to/ghost_content"
-export CERT=/path/to/certificates/folder
+ENV_FILE=${1:-.env}
+set -o allexport
+source $ENV_FILE
+set +o allexport
 
 if ! [ -x "$(command -v docker-compose)" ] || ! [ "$(command -v docker)" ] ; then
   echo 'Error: Docker or docker-compose is not yet installed'
@@ -23,7 +23,7 @@ fi
 [ ! -d "$GHOST_DATA" ] && mkdir -p "$GHOST_DATA"
 
 ### Check for Nginx Certificates ##
-if ls ${CERT}/*.crt &>/dev/null && ls ${CERT}/*.key &>/dev/null
+if ls ${CERT_PATH}/*.crt &>/dev/null && ls ${CERT_PATH}/*.key &>/dev/null
 then
     echo "Creating Containers"
     docker-compose up --force-recreate -d 
@@ -33,5 +33,3 @@ else
     echo 'Error: Missing Nginx certificates'
     exit 1
 fi
-
-
