@@ -1,15 +1,13 @@
 #!/bin/bash
+ENV_FILE=${1:-.env}
+set -o allexport
+source $ENV_FILE
+set +o allexport
 
-MYSQL_DATA="/path/to/ghost_mysql"
-GHOST_DATA="/path/to/ghost_content"
-domains=(replaceme.com www.replaceme.com)
-data_path="./nginx/certbot"
-NGINX_CONTAINER_NAME=REPLACEME-NGINX
+domains=($SERVER_NAME)
 rsa_key_size=4096
-email="" # Adding a valid address is strongly recommended
-staging=0 # Set to 1 if you're testing your setup to avoid hitting request limits
-#Check if docker and docker compose are installed , if not install it 
 
+#Check if docker and docker compose are installed , if not install it 
 if ! [ -x "$(command -v docker-compose)" ] || ! [ "$(command -v docker)" ] ; then
   echo 'Error: Docker or docker-compose is not yet installed'
  if grep -iq "amzn" /etc/os-release ; then
@@ -35,9 +33,9 @@ if [ -d "$data_path" ]; then
 fi
 ## set up certificate
 
-if [ ! -e "$data_path/conf/options-ssl-nginx.conf" ] || [ ! -e "$data_path/conf/ssl-dhparams.pem" ]; then
+if [ ! -e "$NGINX_CONFIG_PATH/letsencrypt/options-ssl-nginx.conf" ] || [ ! -e "$data_path/conf/ssl-dhparams.pem" ]; then
   echo "### Downloading recommended TLS parameters ..."
-  mkdir -p "$data_path/conf"
+  mkdir -p "$NGINX_CONFIG_PATH/letsencrypt"
   curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/tls_configs/options-ssl-nginx.conf > "$data_path/conf/options-ssl-nginx.conf"
   curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/ssl-dhparams.pem > "$data_path/conf/ssl-dhparams.pem"
   echo
@@ -45,7 +43,7 @@ fi
 
 echo "### Creating dummy certificate for $domains ..."
 path="/etc/letsencrypt/live/$domains"
-mkdir -p "$data_path/conf/live/$domains"
+mkdir -p "$NGINX_CONFIG_PATH/letsencrypt/live/$domains"
 docker-compose run --rm --entrypoint "\
   openssl req -x509 -nodes -newkey rsa:1024 -days 1\
     -keyout '$path/privkey.pem' \
@@ -74,13 +72,13 @@ for domain in "${domains[@]}"; do
 done
 
 # Select appropriate email arg
-case "$email" in
+case "$EMAIL" in
   "") email_arg="--register-unsafely-without-email" ;;
-  *) email_arg="--email $email" ;;
+  *) email_arg="--email $EMAIL" ;;
 esac
 
 # Enable staging mode if needed
-if [ $staging != "0" ]; then staging_arg="--staging"; fi
+if [ $STAGING != "0" ]; then staging_arg="--staging"; fi
 
 docker-compose run --rm --entrypoint "\
   certbot certonly --webroot -w /var/www/certbot \

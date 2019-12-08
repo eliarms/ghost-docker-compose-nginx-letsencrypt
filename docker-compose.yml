@@ -55,16 +55,16 @@ services:
     environment:
       SERVER_NAME: ${SERVER_NAME}  
     volumes:
-       - ./nginx/certbot/conf:/etc/letsencrypt
+       - ${NGINX_CONFIG_PATH}/letsencrypt:/etc/letsencrypt
        - ./www:/var/www/certbot
   certbot:
     image: certbot/certbot
     container_name: ${CERTBOT_CONTAINER_NAME}
     restart: unless-stopped
     volumes:
-      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ${NGINX_CONFIG_PATH}/letsencrypt:/etc/letsencrypt
       - ./www:/var/www/certbot
-      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ${NGINX_CONFIG_PATH}:/etc/nginx/conf.d
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"    
 
 
