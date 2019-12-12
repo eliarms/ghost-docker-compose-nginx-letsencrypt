@@ -23,8 +23,10 @@ fi
 [ ! -d "$GHOST_DATA" ] && mkdir -p "$GHOST_DATA"
 
 ### Check for Nginx Certificates ##
-if ls ${CERT_PATH}/*.crt &>/dev/null && ls ${CERT_PATH}/*.key &>/dev/null
+
+if ls ${CERT_PATH}/$CERT_CRT &>/dev/null && ls ${CERT_PATH}/$CERT_KEY &>/dev/null
 then
+sed -e "s/replaceme.crt/$CERT_CRT/g" -e "s/replaceme.key/$CERT_KEY/g" -e "s/SERVER_NAME/$SERVER_NAME/g" $PWD/nginx/conf.d/default.conf
     echo "Creating Containers"
     docker-compose up --force-recreate -d 
     exit 0
