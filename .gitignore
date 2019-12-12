@@ -1,5 +1,0 @@
-.gitignore
-.env
-# ignore all certificates
-*.crt 
-*.key 
