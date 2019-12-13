@@ -25,7 +25,7 @@ fi
 [ ! -d "$MYSQL_DATA" ] && mkdir -p "$MYSQL_DATA"
 [ ! -d "$GHOST_DATA" ] && mkdir -p "$GHOST_DATA"
 
-if [ -d "$data_path" ]; then
+if [ -d "$NGINX_CONFIG_PATH/letsencrypt" ]; then
   read -p "Existing data found for $domains. Continue and replace existing certificate? (y/N) " decision
   if [ "$decision" != "Y" ] && [ "$decision" != "y" ]; then
     exit
@@ -33,11 +33,11 @@ if [ -d "$data_path" ]; then
 fi
 ## set up certificate
 
-if [ ! -e "$NGINX_CONFIG_PATH/letsencrypt/options-ssl-nginx.conf" ] || [ ! -e "$data_path/conf/ssl-dhparams.pem" ]; then
+if [ ! -e "$NGINX_CONFIG_PATH/letsencrypt/options-ssl-nginx.conf" ] || [ ! -e "$NGINX_CONFIG_PATH/letsencrypt/ssl-dhparams.pem" ]; then
   echo "### Downloading recommended TLS parameters ..."
   mkdir -p "$NGINX_CONFIG_PATH/letsencrypt"
-  curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/tls_configs/options-ssl-nginx.conf > "$data_path/conf/options-ssl-nginx.conf"
-  curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/ssl-dhparams.pem > "$data_path/conf/ssl-dhparams.pem"
+  curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/tls_configs/options-ssl-nginx.conf > "$NGINX_CONFIG_PATH/letsencrypt/options-ssl-nginx.conf"
+  curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/ssl-dhparams.pem > "$NGINX_CONFIG_PATH/letsencrypt/ssl-dhparams.pem"
   echo
 fi
 
