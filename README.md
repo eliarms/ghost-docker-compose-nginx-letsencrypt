@@ -1,5 +1,7 @@
 ### This repo automatically installs docker, docker-compose and spin up Ghost CMS with NGINX, MYSQL, phpMyAdmin. It also takes care of the auto-renew of your Let´s Encrypt SSL certificates.
 
+![Ghost with docker Nginx,letsencrypt](https://repository-images.githubusercontent.com/213154761/f0cfa580-1edc-11ea-95c5-e3ae9399fce6)
+
 ## Installation
  #### 1) Clone the repo 
 ```sh
