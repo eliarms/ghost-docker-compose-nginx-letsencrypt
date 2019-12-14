@@ -52,4 +52,4 @@ services:
     volumes:
       - ${CERT_PATH}:/etc/nginx/certs
       - ./www:/usr/share/nginx/html
-      - ${NGINX_CONFIG_PATH:./nginx/conf.d}:/etc/nginx/conf.d
+      - ${NGINX_CONFIG_PATH}:/etc/nginx/conf.d

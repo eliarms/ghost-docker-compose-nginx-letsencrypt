@@ -26,7 +26,9 @@ fi
 
 if ls ${CERT_PATH}/$CERT_CRT &>/dev/null && ls ${CERT_PATH}/$CERT_KEY &>/dev/null
 then
-sed -e "s/replaceme.crt/$CERT_CRT/g" -e "s/replaceme.key/$CERT_KEY/g" -e "s/SERVERNAME/$SERVER_NAME/g" $PWD/$NGINX_CONFIG_PATH/default.conf
+sed -i "s/replaceme.crt/$CERT_CRT/g" $PWD/$NGINX_CONFIG_PATH/*.conf
+sed -i "s/replaceme.key/$CERT_KEY/g" $PWD/$NGINX_CONFIG_PATH/*.conf
+sed -i "s/SERVERNAME/$SERVER_NAME/g" $PWD/$NGINX_CONFIG_PATH/*.conf
     echo "Creating Containers"
     docker-compose up --force-recreate -d 
     exit 0
