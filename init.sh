@@ -70,6 +70,7 @@ domain_args=""
 for domain in "${domains[@]}"; do
   domain_args="$domain_args -d $domain"
 done
+sed -e "s/SERVERNAME/${domains[0]}/g" $PWD/nginx/conf.d/default.conf
 
 # Select appropriate email arg
 case "$EMAIL" in
